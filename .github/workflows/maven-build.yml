@@ -28,6 +28,11 @@ jobs:
       - name: Build with Maven Wrapper
         run: ./mvnw -B package
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: target/*.jar
+
   chainloop:
     name: Chainloop
     uses: chainloop-dev/labs/.github/workflows/chainloop.yml@a75dff2ef342a1e5c5e1ec5c42fb99f3d1bc03cb
