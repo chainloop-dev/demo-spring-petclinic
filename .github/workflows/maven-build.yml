@@ -30,7 +30,7 @@ jobs:
 
   chainloop:
     name: Chainloop
-    uses: chainloop-dev/labs/.github/workflows/chainloop.yml@dev
+    uses: chainloop-dev/labs/.github/workflows/chainloop.yml@a75dff2ef342a1e5c5e1ec5c42fb99f3d1bc03cb
     needs: build
     # with:
     #   contract_revision: 3
