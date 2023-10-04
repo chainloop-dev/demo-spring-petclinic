@@ -42,16 +42,16 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
 
+      - name: Generate metadata
+        run: |
+          mkdir -p metadata
+
       - uses: anchore/sbom-action@v0
         with:
           file: artifacts/*.jar
           format: cyclonedx-json
           output-file: ./metadata/sbom.cyclonedx.json
           upload-artifact: false
-
-      - name: Generate metadata
-        run: |
-          mkdir -p metadata
 
       - uses: actions/upload-artifact@v3
         with:
