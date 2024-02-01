@@ -61,7 +61,7 @@ jobs:
   # Send metadata to Chainloop
   chainloop:
     name: Chainloop
-    uses: chainloop-dev/labs/.github/workflows/chainloop.yml@a75dff2ef342a1e5c5e1ec5c42fb99f3d1bc03cb
+    uses: chainloop-dev/labs/.github/workflows/chainloop.yml@3a6ab69f1ac622143863b6cb4f1f4e30f5982bbe
     needs: collect-metadata
     with:
       contract_revision: 2
