@@ -29,7 +29,7 @@ jobs:
         run: ./mvnw -B package
 
       # Upload the built jar as an artifact so that it can be used in the Chainloop job
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: target/*.jar
@@ -40,7 +40,7 @@ jobs:
     needs: build
     steps:
       - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Generate metadata
         run: |
@@ -53,7 +53,7 @@ jobs:
           output-file: ./metadata/sbom.cyclonedx.json
           upload-artifact: false
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: metadata
           path: metadata/*
