@@ -73,8 +73,9 @@ jobs:
       - chainloop_init
     secrets:
       api_token: ${{ secrets.CHAINLOOP_ROBOT_ACCOUNT }}
-      signing_key: ${{ secrets.COSIGN_PRIVATE_KEY }}
-      signing_key_password: ${{ secrets.COSIGN_PASSWORD }}
+      signing_key: ${{ secrets.PRIVATE_KEY }}
+      signing_key_password: ${{ secrets.PRIVATE_KEY_PASSWORD }}
     with:
-      attestation_name: "docs-release"
+      attestation_name: "petclinic"
+      contract_revision: 2
       chainloop_labs_branch: 7f4de29435dc009326587051f507d2cd8c77d28b
