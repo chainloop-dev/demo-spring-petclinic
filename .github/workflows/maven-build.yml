@@ -17,6 +17,7 @@ jobs:
       api_token: ${{ secrets.CHAINLOOP_ROBOT_ACCOUNT }}
     with:
       chainloop_labs_branch: 7f4de29435dc009326587051f507d2cd8c77d28b
+      contract_revision: 2
 
   build:
     runs-on: ubuntu-latest
@@ -77,5 +78,4 @@ jobs:
       signing_key_password: ${{ secrets.PRIVATE_KEY_PASSWORD }}
     with:
       attestation_name: "petclinic"
-      contract_revision: 2
       chainloop_labs_branch: 7f4de29435dc009326587051f507d2cd8c77d28b
