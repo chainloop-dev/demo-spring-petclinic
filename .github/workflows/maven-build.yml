@@ -17,7 +17,7 @@ jobs:
       api_token: ${{ secrets.CHAINLOOP_ROBOT_ACCOUNT }}
     with:
       chainloop_labs_branch: 7f4de29435dc009326587051f507d2cd8c77d28b
-      contract_revision: 2
+      contract_revision: 3
 
   build:
     runs-on: ubuntu-latest
