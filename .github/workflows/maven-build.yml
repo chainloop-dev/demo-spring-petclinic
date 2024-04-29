@@ -12,7 +12,7 @@ on:
 jobs:
   chainloop_init:
     name: Chainloop Init
-    uses: chainloop-dev/labs/.github/workflows/chainloop_init.yml@fa5581371ddef61196fe2fc556bf41f4777279b9
+    uses: chainloop-dev/labs/.github/workflows/chainloop_init.yml@612daa99c9614b22c37929f10f482c54df36aede
     secrets:
       api_token: ${{ secrets.CHAINLOOP_ROBOT_ACCOUNT }}
     with:
@@ -67,7 +67,7 @@ jobs:
 
   chainloop_push:
     name: Chainloop Push
-    uses: chainloop-dev/labs/.github/workflows/chainloop_push.yml@fa5581371ddef61196fe2fc556bf41f4777279b9
+    uses: chainloop-dev/labs/.github/workflows/chainloop_push.yml@612daa99c9614b22c37929f10f482c54df36aede
     needs:
       - collect-metadata
       - chainloop_init
@@ -77,4 +77,4 @@ jobs:
       signing_key_password: ${{ secrets.PRIVATE_KEY_PASSWORD }}
     with:
       attestation_name: "petclinic"
-      chainloop_labs_branch: fa5581371ddef61196fe2fc556bf41f4777279b9
+      chainloop_labs_branch: 612daa99c9614b22c37929f10f482c54df36aede
