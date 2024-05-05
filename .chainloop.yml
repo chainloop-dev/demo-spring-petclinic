@@ -3,4 +3,4 @@ petclinic:
   - name: binary
     path: artifacts/spring-petclinic-*.jar
   - name: sbom
-    path: metadata/asbom.cyclonedx.json
+    path: metadata/sbom.cyclonedx.json
