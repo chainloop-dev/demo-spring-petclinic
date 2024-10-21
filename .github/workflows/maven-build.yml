@@ -54,11 +54,10 @@ jobs:
       - name: Generate metadata
         run: |
           mkdir -p metadata
-          ls -asl artifacts
 
       - uses: anchore/sbom-action@v0
         with:
-          file: artifacts/*.jar
+          file: artifacts/spring-petclinic-3.2.0-SNAPSHOT.jar
           format: cyclonedx-json
           output-file: ./metadata/sbom.cyclonedx.json
           upload-artifact: false
