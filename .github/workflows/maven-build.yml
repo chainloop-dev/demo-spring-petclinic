@@ -69,7 +69,7 @@ jobs:
 
   chainloop_push:
     name: Chainloop Push
-    uses: chainloop-dev/labs/.github/workflows/chainloop_push.yml@64839eb68c20fefda46929c6c6e893cdf0537619
+    uses: chainloop-dev/labs/.github/workflows/chainloop_push.yml@f3adc6125e963b19ef6a9b98aaad90f04056ace7
     needs:
       - collect-metadata
       - chainloop_init
@@ -77,4 +77,4 @@ jobs:
       api_token: ${{ secrets.CHAINLOOP_TOKEN }}
     with:
       attestation_name: "petclinic"
-      chainloop_labs_branch: 64839eb68c20fefda46929c6c6e893cdf0537619
+      chainloop_labs_branch: f3adc6125e963b19ef6a9b98aaad90f04056ace7
