@@ -53,8 +53,7 @@ jobs:
 
       - name: Generate metadata
         run: |
-          mkdir -p metadata
-          ls -asl artifacts
+          mkdir -p metadata && ls -asl artifacts
 
       - uses: anchore/sbom-action@v0
         with:
