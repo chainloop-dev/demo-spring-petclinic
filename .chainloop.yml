@@ -1,0 +1,11 @@
+# defines files to be added to the attestation
+petclinic:
+  - name: jar
+    path: artifacts/spring-petclinic-*.jar
+  - name: jar-sbom
+    path: ./metadata/sbom.cyclonedx.json
+petclinic_container_image:
+  - name: image-sbom
+    path: ./metadata/image.sbom.cyclonedx.json
+  - name: image
+    path: ghcr.io/danlishka/spring-petclinic-demo:latest

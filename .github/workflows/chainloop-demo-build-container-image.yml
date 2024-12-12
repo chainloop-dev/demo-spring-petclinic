@@ -1,0 +1,91 @@
+name: Chainloop Demo Build Container Image
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  chainloop_init:
+    runs-on: ubuntu-latest
+    outputs:
+      att_id: ${{ steps.att_init.outputs.att_id }}
+      version: ${{ steps.att_init.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Chainloop
+        run: |
+          curl -sfL https://docs.chainloop.dev/install.sh | bash -s
+      - name: Initialize Attestation
+        id: att_init
+        run: |
+          VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
+          att_id=$(chainloop attestation init --workflow build-container-image --project demo-spring-petclinic --contract demo-spring-petclinic --version "$VERSION" --remote-state -o json | jq -r .attestationID)
+          echo "att_id=$att_id" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        env:
+          CHAINLOOP_TOKEN: ${{ secrets.CHAINLOOP_TOKEN}}
+
+  build_container:
+    runs-on: ubuntu-latest
+    env:
+      CHAINLOOP_TOKEN: ${{ secrets.CHAINLOOP_TOKEN }}
+      ATTESTATION_ID: ${{ needs.chainloop_init.outputs.att_id }}
+      VERSION: ${{ needs.chainloop_init.outputs.version }}
+
+    needs: chainloop_init
+    strategy:
+      matrix:
+        java: [ '17' ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK ${{matrix.java}}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{matrix.java}}
+          distribution: 'adopt'
+          cache: maven
+      - name: Install dependencies and tools.
+        run: |
+          mkdir -p metadata
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          curl -sfL https://raw.githubusercontent.com/chainloop-dev/chainloop/01ad13af08950b7bfbc83569bea207aeb4e1a285/docs/static/install.sh | bash -s
+      - name: Docker login to Github Packages
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build the jar file and generate SBOM.
+        run: |
+          chainloop attestation init --workflow build-container-image-jar --project demo-spring-petclinic  --contract demo-spring-petclinic --version ${{ env.VERSION }}
+
+          ./mvnw -B -Dmaven.test.skip=true clean package
+          syft packages -o cyclonedx-json=./metadata/jar.sbom.cyclonedx.json target/spring-petclinic-*.jar
+
+          chainloop attestation add --name jar --value target/*.jar
+          chainloop attestation add --name jar-sbom --value ./metadata/jar.sbom.cyclonedx.json
+
+          chainloop attestation push
+
+      - name: Build a container image push to Github Packages.
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest .
+          docker push ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
+          syft packages -o cyclonedx-json=./metadata/image.sbom.cyclonedx.json docker:ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
+
+      - name: Chainloop Attestation for the container image (using remote state, requires attestation id).
+        run: |
+          chainloop att add --name image --value ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest --attestation-id ${{ env.ATTESTATION_ID }} --remote-state
+          chainloop att add --name image-sbom --value ./metadata/image.sbom.cyclonedx.json --attestation-id ${{ env.ATTESTATION_ID }} --remote-state
+          chainloop att push --attestation-id ${{ env.ATTESTATION_ID }} --remote-state
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: target/*.jar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metadata
+          path: metadata/*
