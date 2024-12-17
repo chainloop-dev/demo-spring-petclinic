@@ -32,7 +32,8 @@ jobs:
       CHAINLOOP_TOKEN: ${{ secrets.CHAINLOOP_TOKEN }}
       ATTESTATION_ID: ${{ needs.chainloop_init.outputs.att_id }}
       VERSION: ${{ needs.chainloop_init.outputs.version }}
-
+    permissions:
+      packages: write
     needs: chainloop_init
     strategy:
       matrix:
