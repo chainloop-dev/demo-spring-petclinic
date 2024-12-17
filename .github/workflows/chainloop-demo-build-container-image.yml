@@ -1,4 +1,4 @@
-name: Chainloop Demo Build Container Image
+name: Demo Spring Petclinic - Build Container Image
 on:
   push:
     branches: [ main ]
