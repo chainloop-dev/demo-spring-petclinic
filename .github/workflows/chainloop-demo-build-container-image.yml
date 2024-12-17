@@ -76,7 +76,7 @@ jobs:
           docker push ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
           syft packages -o cyclonedx-json=./metadata/image.sbom.cyclonedx.json docker:ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
 
-      - name: Chainloop Attestation for the container image (using remote state, requires attestation id).
+      - name: Chainloop Attestation for the whole action and the container image (using remote state, requires attestation id).
         run: |
           chainloop att add --name image --value ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest --attestation-id ${{ env.ATTESTATION_ID }} --remote-state
           chainloop att add --name image-sbom --value ./metadata/image.sbom.cyclonedx.json --attestation-id ${{ env.ATTESTATION_ID }} --remote-state
