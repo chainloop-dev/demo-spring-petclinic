@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Chainloop
         run: |
-          curl -sfL https://docs.chainloop.dev/install.sh | bash -s
+          curl -sfL https://raw.githubusercontent.com/chainloop-dev/chainloop/01ad13af08950b7bfbc83569bea207aeb4e1a285/docs/static/install.sh | bash -s
       - name: Initialize Attestation
         id: att_init
         run: |
