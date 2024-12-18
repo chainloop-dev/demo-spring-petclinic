@@ -87,7 +87,7 @@ jobs:
         run: |
           chainloop attestation init --workflow vulnerabilities-scan-jar --project demo-spring-petclinic --contract demo-spring-petclinic --version ${{ env.VERSION }}
           trivy rootfs target/*.jar --format json -o ./metadata/cve-scan-report-jar.json
-          chainloop att add --name --name jar --value target/*.jar
+          chainloop att add --name jar --value target/*.jar
           chainloop att add --name cve-scan-report --value ./metadata/cve-scan-report-jar.json
           chainloop att push
 
