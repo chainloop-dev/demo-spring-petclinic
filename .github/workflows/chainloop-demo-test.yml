@@ -33,7 +33,6 @@ jobs:
           chainloop attestation init --workflow test --project demo-spring-petclinic  --contract demo-spring-petclinic --version "$VERSION"
 
           ./mvnw clean verify jacoco:report > test.log 2>&1
-
           chainloop attestation add --name test-log --value ./test.log
           chainloop attestation add --name test-report --value target/site/jacoco/jacoco.xml
 
