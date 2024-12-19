@@ -94,7 +94,7 @@ jobs:
           chainloop attestation init --workflow vulnerabilities-scan-jar --project demo-spring-petclinic --contract demo-spring-petclinic --version ${{ env.VERSION }}
           trivy rootfs target/*.jar --format sarif -o ./metadata/cve-scan-report-jar.sarif
           chainloop att add --name jar --value target/*.jar
-          chainloop att add --name cve-scan-report --value ./metadata/cve-scan-report-jar.json
+          chainloop att add --name cve-scan-report --value ./metadata/cve-scan-report-jar.sarif
           chainloop att push
 
       - name: Vulnerabilities Scan for the container image
@@ -102,7 +102,7 @@ jobs:
           chainloop attestation init --workflow vulnerabilities-scan-image --project demo-spring-petclinic --contract demo-spring-petclinic --version ${{ env.VERSION }}
           trivy image ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest --format sarif -o ./metadata/cve-scan-report-image.sarif
           chainloop att add --name image --value ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
-          chainloop att add --name cve-scan-report --value ./metadata/cve-scan-report-image.json
+          chainloop att add --name cve-scan-report --value ./metadata/cve-scan-report-image.sarif
           chainloop att push
 
       - uses: actions/upload-artifact@v4
