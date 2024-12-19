@@ -77,7 +77,7 @@ jobs:
         run: |
           docker build -t ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest .
           docker push ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
-          cosign sign --key=env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
+          # cosign sign --key=env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
           syft packages -o cyclonedx-json=./metadata/image.sbom.cyclonedx.json docker:ghcr.io/${{ github.repository }}/spring-petclinic-demo:latest
         env:
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
