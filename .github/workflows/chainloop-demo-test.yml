@@ -36,3 +36,4 @@ jobs:
           chainloop attestation add --name test-report --value target/site/jacoco/jacoco.xml
 
           chainloop attestation push
+
