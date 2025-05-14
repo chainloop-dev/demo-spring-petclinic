@@ -94,7 +94,10 @@ jobs:
           trivy rootfs target/*.jar --format sarif -o ./metadata/cve-scan-report-jar.sarif
           chainloop att add --name jar --value target/*.jar
           chainloop att add --name cve-scan-report --value ./metadata/cve-scan-report-jar.sarif
-
+          if [ $(chainloop att status -o json | jq .hasPolicyViolations) == "true" ]; then
+            echo "Policy Violations found for the JAR file"
+            exit 1
+          fi
           chainloop att push
 
       - name: Vulnerabilities Scan for the container image
